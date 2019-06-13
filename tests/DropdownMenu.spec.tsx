@@ -1,5 +1,5 @@
+import { Item as MenuItem, ItemGroup as MenuItemGroup } from '@mjpsyapse/rc-menu';
 import { mount, render } from 'enzyme';
-import { Item as MenuItem, ItemGroup as MenuItemGroup } from 'rc-menu';
 import * as React from 'react';
 import DropdownMenu from '../src/DropdownMenu';
 

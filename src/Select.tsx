@@ -1,12 +1,12 @@
+import { Item as MenuItem, ItemGroup as MenuItemGroup } from '@mjpsyapse/rc-menu';
 import classnames from 'classnames';
 import classes from 'component-classes';
-import Animate from 'rc-animate';
-import { Item as MenuItem, ItemGroup as MenuItemGroup } from 'rc-menu';
 import childrenToArray from 'rc-util/lib/Children/toArray';
 import KeyCode from 'rc-util/lib/KeyCode';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { polyfill } from 'react-lifecycles-compat';
+import { CSSTransition } from 'react-transition-group';
 import warning from 'warning';
 import OptGroup from './OptGroup';
 import Option from './Option';
@@ -221,13 +221,12 @@ class Select extends React.Component<Partial<ISelectProps>, ISelectState> {
   public saveInputRef: (ref: HTMLInputElement) => void;
   public saveInputMirrorRef: (ref: HTMLSpanElement) => void;
   public saveTopCtrlRef: (ref: HTMLDivElement) => void;
-  public saveSelectTriggerRef: (ref: SelectTrigger) => void;
   public saveRootRef: (ref: HTMLDivElement) => void;
   public saveSelectionRef: (ref: HTMLDivElement) => void;
   public inputRef: HTMLInputElement | null = null;
   public inputMirrorRef: HTMLSpanElement | null = null;
   public topCtrlRef: HTMLDivElement | null = null;
-  public selectTriggerRef: SelectTrigger | null = null;
+  public selectTriggerRef: any;
   public rootRef: HTMLDivElement | null = null;
   public selectionRef: HTMLDivElement | null = null;
   public dropdownContainer: Element | null = null;
@@ -273,7 +272,7 @@ class Select extends React.Component<Partial<ISelectProps>, ISelectState> {
     this.saveInputRef = saveRef(this, 'inputRef');
     this.saveInputMirrorRef = saveRef(this, 'inputMirrorRef');
     this.saveTopCtrlRef = saveRef(this, 'topCtrlRef');
-    this.saveSelectTriggerRef = saveRef(this, 'selectTriggerRef');
+    this.selectTriggerRef = React.createRef();
     this.saveRootRef = saveRef(this, 'rootRef');
     this.saveSelectionRef = saveRef(this, 'selectionRef');
   }
@@ -424,8 +423,8 @@ class Select extends React.Component<Partial<ISelectProps>, ISelectState> {
       return;
     }
 
-    if (isRealOpen && this.selectTriggerRef) {
-      const menu = this.selectTriggerRef.getInnerMenu();
+    if (isRealOpen && this.selectTriggerRef.current) {
+      const menu = this.selectTriggerRef.current.getInnerMenu().current;
       if (menu && menu.onKeyDown(event, this.handleBackfill)) {
         event.preventDefault();
         event.stopPropagation();
@@ -514,7 +513,7 @@ class Select extends React.Component<Partial<ISelectProps>, ISelectState> {
     // https://github.com/ant-design/ant-design/issues/15942
     // Here we ignore the first one when e.target is div
     const inputNode = this.getInputDOMNode();
-    if (inputNode && e.target === this.rootRef) {
+    if (inputNode && e.target === this.selectTriggerRef.current) {
       return;
     }
 
@@ -791,14 +790,14 @@ class Select extends React.Component<Partial<ISelectProps>, ISelectState> {
   };
 
   public getPopupDOMNode = () => {
-    if (this.selectTriggerRef) {
-      return this.selectTriggerRef.getPopupDOMNode();
+    if (this.selectTriggerRef.current) {
+      return this.selectTriggerRef.current.getPopupDOMNode();
     }
   };
 
   public getPopupMenuComponent = () => {
-    if (this.selectTriggerRef) {
-      return this.selectTriggerRef.getInnerMenu();
+    if (this.selectTriggerRef.current) {
+      return this.selectTriggerRef.current.getInnerMenu();
     }
   };
 
@@ -995,7 +994,7 @@ class Select extends React.Component<Partial<ISelectProps>, ISelectState> {
   };
 
   public updateFocusClassName = () => {
-    const rootRef = this.rootRef;
+    const rootRef = this.selectTriggerRef.current.triggerRef.current;
     const props = this.props;
     // avoid setState and its side effect
     if (this._focused) {
@@ -1100,8 +1099,8 @@ class Select extends React.Component<Partial<ISelectProps>, ISelectState> {
     if (!this.state.open) {
       return;
     }
-    if (this.selectTriggerRef && this.selectTriggerRef.triggerRef) {
-      this.selectTriggerRef.triggerRef.forcePopupAlign();
+    if (this.selectTriggerRef.current) {
+      this.selectTriggerRef.current.ref.current.forcePopupAlign();
     }
   };
 
@@ -1415,13 +1414,17 @@ class Select extends React.Component<Partial<ISelectProps>, ISelectState> {
 
       if (isMultipleOrTags(props) && choiceTransitionName) {
         innerNode = (
-          <Animate
+          <CSSTransition
             onLeave={this.onChoiceAnimationLeave}
             component="ul"
-            transitionName={choiceTransitionName}
+            transitionname={choiceTransitionName}
+            transitionappeartimeout={200}
+            transitionentertimeout={200}
+            transitionleavetimeout={200}
+            timeout={200}
           >
             {selectedValueNodes}
-          </Animate>
+          </CSSTransition>
         );
       } else {
         innerNode = <ul>{selectedValueNodes}</ul>;
@@ -1578,7 +1581,7 @@ class Select extends React.Component<Partial<ISelectProps>, ISelectState> {
         onMenuDeselect={this.onMenuDeselect}
         onPopupScroll={props.onPopupScroll}
         showAction={props.showAction}
-        ref={this.saveSelectTriggerRef}
+        ref={this.selectTriggerRef}
         menuItemSelectedIcon={props.menuItemSelectedIcon}
         dropdownRender={props.dropdownRender}
         ariaId={ariaId}
@@ -1586,7 +1589,6 @@ class Select extends React.Component<Partial<ISelectProps>, ISelectState> {
         <div
           id={props.id}
           style={props.style}
-          ref={this.saveRootRef}
           onBlur={this.onOuterBlur}
           onFocus={this.onOuterFocus}
           className={classnames(rootCls)}

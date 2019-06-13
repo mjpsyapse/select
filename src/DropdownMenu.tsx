@@ -1,12 +1,11 @@
+import Menu from '@mjpsyapse/rc-menu';
 import scrollIntoView from 'dom-scroll-into-view';
 import * as PropTypes from 'prop-types';
 import raf from 'raf';
-import Menu from 'rc-menu';
 import toArray from 'rc-util/lib/Children/toArray';
 import * as React from 'react';
-import { findDOMNode } from 'react-dom';
 import { renderSelect, valueType } from './PropTypes';
-import { getSelectKeys, preventDefaultEvent, saveRef } from './util';
+import { getSelectKeys, preventDefaultEvent } from './util';
 
 export interface IMenuEvent {
   key: string;
@@ -57,14 +56,14 @@ export default class DropdownMenu extends React.Component<Partial<IDropdownMenuP
     cancel: () => void;
   } = { cancel: () => null };
   public lastInputValue: string | string[] | undefined;
-  public saveMenuRef: any;
   public menuRef: any;
   public lastVisible: boolean = false;
   public firstActiveItem: any;
+
   constructor(props: Partial<IDropdownMenuProps>) {
     super(props);
     this.lastInputValue = props.inputValue;
-    this.saveMenuRef = saveRef(this, 'menuRef');
+    this.menuRef = React.createRef();
   }
 
   public componentDidMount() {
@@ -101,7 +100,7 @@ export default class DropdownMenu extends React.Component<Partial<IDropdownMenuP
 
   public scrollActiveItemToView = () => {
     // scroll into view
-    const itemComponent = findDOMNode(this.firstActiveItem);
+    const itemComponent = this.firstActiveItem;
     const { visible, firstActiveValue } = this.props;
     const value = this.props.value as string[];
     if (!itemComponent || !visible) {
@@ -120,7 +119,7 @@ export default class DropdownMenu extends React.Component<Partial<IDropdownMenuP
     // Delay to scroll since current frame item position is not ready when pre view is by filter
     // https://github.com/ant-design/ant-design/issues/11268#issuecomment-406634462
     this.rafInstance = raf(() => {
-      scrollIntoView(itemComponent, findDOMNode(this.menuRef), scrollIntoViewOpts);
+      scrollIntoView(itemComponent, this.menuRef.current, scrollIntoViewOpts);
     });
   };
 
@@ -210,7 +209,7 @@ export default class DropdownMenu extends React.Component<Partial<IDropdownMenuP
 
       return (
         <Menu
-          ref={this.saveMenuRef}
+          ref={this.menuRef}
           style={this.props.dropdownMenuStyle}
           defaultActiveFirst={defaultActiveFirst}
           role="listbox"
