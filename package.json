@@ -1,5 +1,5 @@
 {
-  "name": "rc-select",
+  "name": "@mjpsyapse/rc-select",
   "version": "9.1.4",
   "description": "React Select",
   "keywords": [
@@ -15,13 +15,13 @@
     "es",
     "lib"
   ],
-  "homepage": "http://github.com/react-component/select",
+  "homepage": "http://github.com/mjpsyapse/select",
   "repository": {
     "type": "git",
-    "url": "git@github.com:react-component/select.git"
+    "url": "git@github.com:mjpsyapse/select.git"
   },
   "bugs": {
-    "url": "http://github.com/react-component/select/issues"
+    "url": "http://github.com/mjpsyapse/select/issues"
   },
   "license": "MIT",
   "config": {
