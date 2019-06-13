@@ -1,6 +1,6 @@
+import Trigger from '@mjpsyapse/rc-trigger';
 import classnames from 'classnames';
 import * as PropTypes from 'prop-types';
-import Trigger from 'rc-trigger';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import DropdownMenu, { IDropdownMenuProps } from './DropdownMenu';
@@ -95,15 +95,16 @@ export default class SelectTrigger extends React.Component<
   };
 
   public saveDropdownMenuRef: (ref: any) => void;
-  public saveTriggerRef: (ref: any) => void;
   public dropdownMenuRef: DropdownMenu | null = null;
   public triggerRef: any;
+  public ref: any;
 
   constructor(props: Partial<ISelectTriggerProps>) {
     super(props);
 
     this.saveDropdownMenuRef = saveRef(this, 'dropdownMenuRef');
-    this.saveTriggerRef = saveRef(this, 'triggerRef');
+    this.triggerRef = React.createRef();
+    this.ref = React.createRef();
 
     this.state = {
       dropdownWidth: 0,
@@ -131,7 +132,7 @@ export default class SelectTrigger extends React.Component<
   };
 
   public getPopupDOMNode = () => {
-    return this.triggerRef.getPopupDomNode();
+    return this.triggerRef.current.getPopupDomNode();
   };
 
   public getDropdownElement = (newProps: Partial<ISelectTriggerProps>) => {
@@ -219,7 +220,8 @@ export default class SelectTrigger extends React.Component<
         {...props}
         showAction={disabled ? [] : this.props.showAction}
         hideAction={hideAction}
-        ref={this.saveTriggerRef}
+        forwardedRef={this.triggerRef}
+        ref={this.ref}
         popupPlacement="bottomLeft"
         builtinPlacements={BUILT_IN_PLACEMENTS}
         prefixCls={dropdownPrefixCls}

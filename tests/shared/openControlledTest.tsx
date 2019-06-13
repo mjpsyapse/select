@@ -12,9 +12,9 @@ export default function openControlledTest(mode) {
         <Option value="22">22</Option>
       </Select>,
     );
-    expect(wrapper.instance().selectTriggerRef.props.visible).toBe(true);
+    expect(wrapper.instance().selectTriggerRef.current.props.visible).toBe(true);
     wrapper.setProps({ open: false });
     wrapper.update();
-    expect(wrapper.instance().selectTriggerRef.props.visible).toBe(false);
+    expect(wrapper.instance().selectTriggerRef.current.props.visible).toBe(false);
   });
 }
