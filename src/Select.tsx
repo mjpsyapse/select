@@ -425,7 +425,7 @@ class Select extends React.Component<Partial<ISelectProps>, ISelectState> {
     }
 
     if (isRealOpen && this.selectTriggerRef) {
-      const menu = this.selectTriggerRef.getInnerMenu();
+      const menu = this.selectTriggerRef.getInnerMenu().current;
       if (menu && menu.onKeyDown(event, this.handleBackfill)) {
         event.preventDefault();
         event.stopPropagation();
