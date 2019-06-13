@@ -1,7 +1,7 @@
+import { Item as MenuItem, ItemGroup as MenuItemGroup } from '@mjpsyapse/rc-menu';
 import classnames from 'classnames';
 import classes from 'component-classes';
 import Animate from 'rc-animate';
-import { Item as MenuItem, ItemGroup as MenuItemGroup } from 'rc-menu';
 import childrenToArray from 'rc-util/lib/Children/toArray';
 import KeyCode from 'rc-util/lib/KeyCode';
 import * as React from 'react';

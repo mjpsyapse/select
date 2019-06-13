@@ -66,6 +66,7 @@
     "typescript": "^3.2.2"
   },
   "dependencies": {
+    "@mjpsyapse/rc-menu": "^7.4.26",
     "babel-runtime": "^6.23.0",
     "classnames": "2.x",
     "component-classes": "1.x",
@@ -73,7 +74,6 @@
     "prop-types": "^15.5.8",
     "raf": "^3.4.0",
     "rc-animate": "2.x",
-    "rc-menu": "^7.3.0",
     "rc-trigger": "^2.5.4",
     "rc-util": "^4.0.4",
     "react-lifecycles-compat": "^3.0.2",

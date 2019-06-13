@@ -1,7 +1,7 @@
+import Menu from '@mjpsyapse/rc-menu';
 import scrollIntoView from 'dom-scroll-into-view';
 import * as PropTypes from 'prop-types';
 import raf from 'raf';
-import Menu from 'rc-menu';
 import toArray from 'rc-util/lib/Children/toArray';
 import * as React from 'react';
 import { renderSelect, valueType } from './PropTypes';

@@ -4,7 +4,7 @@ declare module 'component-classes';
 
 declare module 'rc-animate';
 
-declare module 'rc-menu';
+declare module '@mjpsyapse/rc-menu';
 
 declare module 'rc-util/lib/Children/toArray';
 
