@@ -68,6 +68,7 @@
   "dependencies": {
     "@mjpsyapse/rc-menu": "^7.4.26",
     "@mjpsyapse/rc-trigger": "^2.6.7",
+    "@types/react-transition-group": "^2.9.2",
     "babel-runtime": "^6.23.0",
     "classnames": "2.x",
     "component-classes": "1.x",
