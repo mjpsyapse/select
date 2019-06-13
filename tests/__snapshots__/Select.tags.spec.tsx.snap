@@ -489,18 +489,15 @@ exports[`Select.tags render render animation 1`] = `
       <div
         className="rc-select-selection__rendered"
       >
-        <Animate
-          animation={Object {}}
+        <CSSTransition
+          classNames=""
           component="ul"
-          componentProps={Object {}}
-          onAppear={[Function]}
-          onEnd={[Function]}
-          onEnter={[Function]}
           onLeave={[Function]}
-          transitionAppear={false}
-          transitionEnter={true}
-          transitionLeave={true}
-          transitionName="slide-up"
+          timeout={200}
+          transitionappeartimeout={200}
+          transitionentertimeout={200}
+          transitionleavetimeout={200}
+          transitionname="slide-up"
         >
           <li
             className="rc-select-search rc-select-search--inline"
@@ -523,7 +520,7 @@ exports[`Select.tags render render animation 1`] = `
               </span>
             </div>
           </li>
-        </Animate>
+        </CSSTransition>
       </div>
     </div>
   </div>

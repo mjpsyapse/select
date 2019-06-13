@@ -1,12 +1,12 @@
 import { Item as MenuItem, ItemGroup as MenuItemGroup } from '@mjpsyapse/rc-menu';
 import classnames from 'classnames';
 import classes from 'component-classes';
-import Animate from 'rc-animate';
 import childrenToArray from 'rc-util/lib/Children/toArray';
 import KeyCode from 'rc-util/lib/KeyCode';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { polyfill } from 'react-lifecycles-compat';
+import { CSSTransition } from 'react-transition-group';
 import warning from 'warning';
 import OptGroup from './OptGroup';
 import Option from './Option';
@@ -1415,13 +1415,17 @@ class Select extends React.Component<Partial<ISelectProps>, ISelectState> {
 
       if (isMultipleOrTags(props) && choiceTransitionName) {
         innerNode = (
-          <Animate
+          <CSSTransition
             onLeave={this.onChoiceAnimationLeave}
             component="ul"
-            transitionName={choiceTransitionName}
+            transitionname={choiceTransitionName}
+            transitionappeartimeout={200}
+            transitionentertimeout={200}
+            transitionleavetimeout={200}
+            timeout={200}
           >
             {selectedValueNodes}
-          </Animate>
+          </CSSTransition>
         );
       } else {
         innerNode = <ul>{selectedValueNodes}</ul>;
