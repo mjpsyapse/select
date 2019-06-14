@@ -2,7 +2,6 @@ import Trigger from '@mjpsyapse/rc-trigger';
 import classnames from 'classnames';
 import * as PropTypes from 'prop-types';
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
 import DropdownMenu, { IDropdownMenuProps } from './DropdownMenu';
 import { renderSelect, valueType } from './PropTypes';
 import { isSingleMode, saveRef } from './util';
@@ -98,6 +97,7 @@ export default class SelectTrigger extends React.Component<
   public dropdownMenuRef: DropdownMenu | null = null;
   public triggerRef: any;
   public ref: any;
+  public forwardedRef: any;
 
   constructor(props: Partial<ISelectTriggerProps>) {
     super(props);
@@ -120,7 +120,7 @@ export default class SelectTrigger extends React.Component<
   }
 
   public setDropdownWidth = () => {
-    const dom = ReactDOM.findDOMNode(this) as HTMLDivElement;
+    const dom = this.ref.current.triggerRef.current;
     const width = dom.offsetWidth;
     if (width !== this.state.dropdownWidth) {
       this.setState({ dropdownWidth: width });
